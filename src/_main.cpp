@@ -121,9 +121,8 @@ public:
 
                     auto rect = sprite->boundingBox();
                     rect.origin.y = canvas->getContentSize().height - rect.origin.y - rect.size.height;
-                    frame->initWithTexture(textureToMergeInto, rect);
-                    frame->setOffset(CCPointZero);
-                    frame->setRotated(false);
+                    auto rectInPixels = CC_RECT_POINTS_TO_PIXELS(rect);
+                    frame->initWithTexture(textureToMergeInto, rectInPixels, false, CCPointZero, rectInPixels.size);
 
                     this->removeSpriteFrameByName(key.c_str());
                     this->addSpriteFrame(frame, key.c_str());
