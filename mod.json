@@ -1,0 +1,29 @@
+{
+	"geode": "4.6.3",
+	"early-load": true,
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "user95401.sprite-frames-unity",
+	"name": "Sprite Frames Unity",
+	"version": "v1.0.0",
+	"developers": [ "user95401" ],
+	"description": "Allows developers add custom sprite frames into existing spritesheet texture.",
+	"tags": [ "developer", "utility" ],
+	"links": {
+		"community": "https://discord.gg/6SxAbk3bTA",
+		"homepage": "https://t.me/user95401_channel",
+		"source": "https://github.com/user95401/geode-sprite-frames-unity"
+	},
+	"settings": {
+		"debug": {
+			"name": "Show generation canvases (debug)",
+			"description": "Will fill your screen with spritesheet generation canvases.\nAdds logs also.",
+			"type": "bool",
+			"default": false
+		}
+	}
+}
