@@ -121,10 +121,9 @@ public:
 
                     auto rect = sprite->boundingBox();
                     rect.origin.y = canvas->getContentSize().height - rect.origin.y - rect.size.height;
-                    frame->setRect(rect);
-                    frame->setTexture(textureToMergeInto);
-                    frame->setRotated(false);
+                    frame->initWithTexture(textureToMergeInto, rect);
                     frame->setOffset(CCPointZero);
+                    frame->setRotated(false);
 
                     this->removeSpriteFrameByName(key.c_str());
                     this->addSpriteFrame(frame, key.c_str());
