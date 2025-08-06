@@ -55,7 +55,6 @@ public:
                     CACHED_MAIN_CONTENTS[textureNameToMergeInto] = mainContent;
 
                     CC_SAFE_DELETE(img);
-					CC_SAFE_DELETE(tex);
                 }
 
                 mainContent->setID("" + textureNameToMergeInto);
