@@ -22,7 +22,7 @@ public:
         auto split = string::split(name, "/");
         DEBUG log::debug("split = {}", split);
         if (split.size() > 1) {
-			auto textureNameOfPlist = getTexturePathFromPlist(name);
+            auto textureNameOfPlist = getTexturePathFromPlist(name);
             auto textureNameToMergeInto = getTexturePathFromPlist(split[1]);
             DEBUG log::debug("textureNameOfPlist = {}", textureNameOfPlist);
             DEBUG log::debug("textureNameToMergeInto = {}", textureNameToMergeInto);
@@ -32,7 +32,7 @@ public:
                 auto textureToMergeInto = texCache->addImage(textureNameToMergeInto.c_str(), 0);
                 DEBUG log::debug("textureOfPlist = {}", textureOfPlist);
                 DEBUG log::debug("textureToMergeInto = {}", textureToMergeInto);
-                
+
                 auto canvas = CCNode::create();
                 canvas->setID("canvas for " + textureNameToMergeInto);
                 DEBUG SceneManager::get()->keepAcrossScenes(canvas);
@@ -44,15 +44,18 @@ public:
                     mainContent = CACHED_MAIN_CONTENTS[textureNameToMergeInto];
                 }
                 else {
-                    auto img = new CCImage(); 
+                    auto img = new CCImage();
                     img->m_bPreMulti = true;
                     img->initWithImageFile(textureNameToMergeInto.c_str());
                     auto tex = new CCTexture2D();
                     tex->initWithImage(img);
                     tex->setAliasTexParameters();
-					mainContent = CCSprite::createWithTexture(tex);
+                    mainContent = CCSprite::createWithTexture(tex);
                     mainContent->setBlendFunc({ GL_ONE, GL_ONE });
                     CACHED_MAIN_CONTENTS[textureNameToMergeInto] = mainContent;
+
+                    CC_SAFE_DELETE(img);
+					CC_SAFE_DELETE(tex);
                 }
 
                 mainContent->setID("" + textureNameToMergeInto);
@@ -61,18 +64,18 @@ public:
                 canvas->addChild(mainContent);
 
                 static std::unordered_map<
-                    std::string, 
+                    std::string,
                     std::unordered_map<std::string, Ref<CCSprite>>
                 > ADDED_FRAMES;
 
                 for (auto [key, frame] : CCDictionaryExt<std::string, CCSpriteFrame*>(m_pSpriteFrames)) {
-					if (frame->getTexture() == textureOfPlist) {
+                    if (frame->getTexture() == textureOfPlist) {
                         auto addedFrame = CCSprite::createWithSpriteFrame(frame);
                         addedFrame->setID(key);
                         frame->getTexture()->setAliasTexParameters();
                         ADDED_FRAMES[textureNameToMergeInto].erase(key);
                         ADDED_FRAMES[textureNameToMergeInto][key] = addedFrame;
-					}
+                    }
                 }
 
                 for (auto [a, sprite] : ADDED_FRAMES[textureNameToMergeInto]) canvas->addChild(sprite);
@@ -94,18 +97,18 @@ public:
                 mainContent->setPositionY((int)canvas->getContentHeight());
 
                 auto rend = CCRenderTexture::create(
-                    canvas->getContentSize().width, 
-                    canvas->getContentSize().height, 
+                    canvas->getContentSize().width,
+                    canvas->getContentSize().height,
                     kCCTexture2DPixelFormat_Default
                 );
-				rend->beginWithClear(0, 0, 0, 0);
-				canvas->visit();
-				rend->end();
+                rend->beginWithClear(0, 0, 0, 0);
+                canvas->visit();
+                rend->end();
 
                 auto img = rend->newCCImage();
                 img->m_bPreMulti = true;
                 textureToMergeInto->initWithImage(img);
-                delete img;
+                CC_SAFE_DELETE(img);
 
                 DEBUG if (true) {
                     rend->getSprite()->setAnchorPoint({ 1.f, 1.f });
