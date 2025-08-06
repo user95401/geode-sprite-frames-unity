@@ -9,7 +9,7 @@
 	},
 	"id": "user95401.sprite-frames-unity",
 	"name": "Sprite Frames Unity",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developers": [ "user95401" ],
 	"description": "Allows developers add custom sprite frames into existing spritesheet texture.",
 	"tags": [ "developer", "utility" ],
