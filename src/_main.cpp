@@ -47,13 +47,16 @@ public:
                     auto img = new CCImage();
                     img->m_bPreMulti = true;
                     img->initWithImageFile(textureNameToMergeInto.c_str());
+                    
                     auto tex = new CCTexture2D();
                     tex->initWithImage(img);
                     tex->setAliasTexParameters();
+                    
                     mainContent = CCSprite::createWithTexture(tex);
                     mainContent->setBlendFunc({ GL_ONE, GL_ONE });
                     CACHED_MAIN_CONTENTS[textureNameToMergeInto] = mainContent;
 
+                    tex->release();
                     CC_SAFE_DELETE(img);
                 }
 
