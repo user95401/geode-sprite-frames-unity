@@ -94,6 +94,13 @@ public:
                     );
                 }
 
+                for (auto [a, sprite] : ADDED_FRAMES[textureNameToMergeInto]) {
+                    // fix position up to pixel frame coordinates
+                    sprite->setPositionX((int)(sprite->getPositionX()));
+                    sprite->setPositionY((int)(sprite->getPositionY()));
+                    sprite->getTexture()->setAliasTexParameters();
+                }
+
                 mainContent->setAnchorPoint({ 0.f, 1.f });
                 mainContent->setPositionX(0.f);
                 mainContent->setPositionY((int)canvas->getContentHeight());
@@ -126,8 +133,14 @@ public:
 
                     auto rect = sprite->boundingBox();
                     rect.origin.y = canvas->getContentSize().height - rect.origin.y - rect.size.height;
+
                     auto rectInPixels = CC_RECT_POINTS_TO_PIXELS(rect);
+
                     frame->initWithTexture(textureToMergeInto, rectInPixels, false, CCPointZero, rectInPixels.size);
+
+                    // fix position up to pixel frame coordinates
+                    frame->m_obRect.origin.x = (int)(frame->m_obRect.origin.x);
+                    frame->m_obRect.origin.y = (int)(frame->m_obRect.origin.y);
 
                     this->removeSpriteFrameByName(key.c_str());
                     this->addSpriteFrame(frame, key.c_str());

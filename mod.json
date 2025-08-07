@@ -1,5 +1,5 @@
 {
-	"geode": "4.6.3",
+	"geode": "4.7.0",
 	"early-load": true,
 	"gd": {
 		"win": "2.2074",
@@ -9,7 +9,7 @@
 	},
 	"id": "user95401.sprite-frames-unity",
 	"name": "Sprite Frames Unity",
-	"version": "v1.0.2",
+	"version": "v1.0.3",
 	"developers": [ "user95401" ],
 	"description": "Allows developers add custom sprite frames into existing spritesheet texture.",
 	"tags": [ "developer", "utility" ],
