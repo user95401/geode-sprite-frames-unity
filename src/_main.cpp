@@ -73,6 +73,7 @@ public:
                 for (auto [key, frame] : CCDictionaryExt<std::string, CCSpriteFrame*>(m_pSpriteFrames)) {
                     if (frame->getTexture() == textureOfPlist) {
                         auto addedFrame = CCSprite::createWithSpriteFrame(frame);
+                        addedFrame->setBlendFunc({ GL_ONE, GL_ONE });
                         addedFrame->setID(key);
                         frame->getTexture()->setAliasTexParameters();
                         ADDED_FRAMES[textureNameToMergeInto].erase(key);
@@ -84,7 +85,7 @@ public:
 
                 {
                     canvas->setLayout(RowLayout::create()
-                        ->setGap(1.f)
+                        ->setGap(3.f)
                         ->setAutoScale(false)
                         ->setGrowCrossAxis(true)
                         ->setCrossAxisOverflow(true)
