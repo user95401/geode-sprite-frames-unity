@@ -74,8 +74,8 @@ public:
                     if (frame->getTexture() == textureOfPlist) {
                         auto addedFrame = CCSprite::createWithSpriteFrame(frame);
                         addedFrame->setBlendFunc({ GL_ONE, GL_ONE });
+                        addedFrame->setAnchorPoint({ 0.f, 0.f });
                         addedFrame->setID(key);
-                        frame->getTexture()->setAliasTexParameters();
                         ADDED_FRAMES[textureNameToMergeInto].erase(key);
                         ADDED_FRAMES[textureNameToMergeInto][key] = addedFrame;
                     }
@@ -85,7 +85,7 @@ public:
 
                 {
                     canvas->setLayout(RowLayout::create()
-                        ->setGap(3.f)
+                        ->setGap(2.f)
                         ->setAutoScale(false)
                         ->setGrowCrossAxis(true)
                         ->setCrossAxisOverflow(true)
@@ -132,16 +132,16 @@ public:
                 for (auto [key, sprite] : ADDED_FRAMES[textureNameToMergeInto]) {
                     auto frame = sprite->displayFrame();
 
-                    auto rect = sprite->boundingBox();
-                    rect.origin.y = canvas->getContentSize().height - rect.origin.y - rect.size.height;
+                    auto rect = CCRect(sprite->getPosition(), sprite->getContentSize());
 
-                    auto rectInPixels = CC_RECT_POINTS_TO_PIXELS(rect);
+                    rect.origin.y = (int)canvas->getContentHeight() - rect.origin.y - rect.size.height;
 
-                    frame->initWithTexture(textureToMergeInto, rectInPixels, false, CCPointZero, rectInPixels.size);
+                    rect.origin.x = rect.origin.x * CCDirector::sharedDirector()->getContentScaleFactor();
+                    rect.origin.y = rect.origin.y * CCDirector::sharedDirector()->getContentScaleFactor();
+                    rect.size.width = rect.size.width * CCDirector::sharedDirector()->getContentScaleFactor();
+                    rect.size.height = rect.size.height * CCDirector::sharedDirector()->getContentScaleFactor();
 
-                    // fix position up to pixel frame coordinates
-                    frame->m_obRect.origin.x = (int)(frame->m_obRect.origin.x);
-                    frame->m_obRect.origin.y = (int)(frame->m_obRect.origin.y);
+                    frame->initWithTexture(textureToMergeInto, rect, false, CCPointZero, rect.size);
 
                     this->removeSpriteFrameByName(key.c_str());
                     this->addSpriteFrame(frame, key.c_str());
