@@ -33,6 +33,11 @@ public:
                 DEBUG log::debug("textureOfPlist = {}", textureOfPlist);
                 DEBUG log::debug("textureToMergeInto = {}", textureToMergeInto);
 
+                auto prevter_imageplus = Loader::get()->getInstalledMod("prevter.imageplus");
+                if (!prevter_imageplus) prevter_imageplus = getMod(); // fallback
+
+                auto forceAutodetect = prevter_imageplus->setSettingValue("force-autodetect", false);
+
                 auto canvas = CCNode::create();
                 canvas->setID("canvas for " + textureNameToMergeInto);
                 DEBUG SceneManager::get()->keepAcrossScenes(canvas);
@@ -148,6 +153,8 @@ public:
 
                     sprite->initWithSpriteFrameName(key.c_str());
                 }
+
+				prevter_imageplus->setSettingValue("force-autodetect", forceAutodetect);
             }
         }
     }
